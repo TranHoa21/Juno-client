@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 import "../../style/components/common/SliderProduct.scss";
 import { useDispatch } from 'react-redux';
@@ -48,20 +49,15 @@ const SliderProduct = () => {
                     navigation
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
+                    autoplay={{ delay: 3000, disableOnInteraction: false }}
+                    observer={true}
+                    observeParents={true}
                     breakpoints={{
-                        480: { // Kích thước nhỏ hơn hoặc bằng 480px
-                            slidesPerView: 2,
-                            spaceBetween: 10,
-                        },
-                        768: { // Kích thước nhỏ hơn hoặc bằng 768px
-                            slidesPerView: 3,
-                            spaceBetween: 15,
-                        },
-                        1024: { // Lớn hơn 768px
-                            slidesPerView: 5,
-                            spaceBetween: 20,
-                        },
+                        480: { slidesPerView: 2, spaceBetween: 10 },
+                        768: { slidesPerView: 3, spaceBetween: 15 },
+                        1024: { slidesPerView: 5, spaceBetween: 20 },
                     }}
+                    className="slider-1"
                 >
                     {products.map((product, index) => (
                         <SwiperSlide key={index} className="product-slider-item">

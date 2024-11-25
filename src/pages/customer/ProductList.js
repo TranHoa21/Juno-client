@@ -15,14 +15,17 @@ const NewProduct = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("check >>>", taglist);
                 const response = await axios.get('http://localhost:3001/api/v1/product/products');
                 if (Array.isArray(response.data.products)) {
                     const newProducts = response.data.products
                         .filter(product => {
                             // Phân tích chuỗi JSON để lấy tag
                             const tags = JSON.parse(product.tag); // Phân tích chuỗi JSON
-                            return tags.includes(taglist); // Kiểm tra nếu taglist có trong mảng tags
+                            // Chuyển đổi tag từ cơ sở dữ liệu để chuẩn hóa
+                            const normalizedTags = tags.map(tag => tag.replace(/-/g, ' ').trim());
+
+                            // Kiểm tra nếu taglist có trong mảng normalizedTags
+                            return normalizedTags.includes(taglist);
                         })
                         .map(product => ({
                             ...product,

@@ -226,7 +226,7 @@ const UpdateProduct = () => {
                         <option value="Túi cỡ nhỏ">Túi cỡ nhỏ</option>
                         <option value="Túi cỡ lớn">Túi cỡ lớn</option>
                         <option value="Balo">Balo</option>
-                        <option value="Ví - Clutch">Ví - Clutch</option>
+                        <option value="Ví-Clutch">Ví-Clutch</option>
                     </select>
                 </div>
 
@@ -271,17 +271,17 @@ const UpdateProduct = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Design:</label>
+                    <label>Kiểu dáng:</label>
                     <select
                         name="design"
                         value={productDetails.design}
                         onChange={handleProductDetailsChange}
                         required
                     >
-                        <option value="">Select Design</option>
-                        <option value="Fashion Bag">Fashion Bag</option>
-                        <option value="Fashion Backpack">Fashion Backpack</option>
-                        <option value="Clutch">Clutch</option>
+                        <option value="">Chọn kiểu dáng</option>
+                        <option value="Túi xách thời trang">Túi xách thời trang</option>
+                        <option value="Balo thời trang">Balo thời trang</option>
+                        <option value="Ví cầm tay">Ví cầm tay</option>
                     </select>
                 </div>
 

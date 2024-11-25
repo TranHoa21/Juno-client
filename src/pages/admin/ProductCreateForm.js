@@ -221,7 +221,7 @@ const ProductCreateForm = () => {
             <option value="Túi cỡ nhỏ">Túi cỡ nhỏ</option>
             <option value="Túi cỡ lớn">Túi cỡ lớn</option>
             <option value="Balo">Balo</option>
-            <option value="Ví - Clutch">Ví - Clutch</option>
+            <option value="Ví-Clutch">Ví - Clutch</option>
           </select>
         </div>
 

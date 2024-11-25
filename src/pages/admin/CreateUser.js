@@ -5,24 +5,25 @@ import "../../style/pages/admin/CreateUser.scss";
 
 const CreateUser = () => {
     const navigate = useNavigate();
- 
-    
-     const [error, setError] = useState(null);
+
+
+    const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-const userData = {
+        const userData = {
             name: e.target.name.value,
             email: e.target.email.value,
             password: e.target.password.value,
+            phonenumber: e.target.phonenumber.value,
         };
         try {
-            const response = await axios.post(`http://localhost:3001/api/v1/auth/signup`, userData);
-             if (response.data.success) {
-                setSuccess(response.data.message); // Hiển thị thông báo thành công
+            const response = await axios.post(`http://localhost:3001/api/v1/user/admin`, userData);
+            if (response.data) {
+                setSuccess(response.data.mes); // Hiển thị thông báo thành công
                 setError(null);
                 alert("Tạo người dùng thành công! Tự động chuyển hướng sau 2 giây");
                 setTimeout(() => {
@@ -30,11 +31,11 @@ const userData = {
                 }, 2000);
             } else {
                 alert("Đăng ký không thành công! Có lỗi khi đăng ký");
-                setError(response.data.message); // Hiển thị thông báo lỗi
+                setError(response.data.mes); // Hiển thị thông báo lỗi
                 setSuccess(null);
             }
 
-            
+
         } catch (error) {
             setError('Có lỗi xảy ra , vui lòng thử lại');
         }
@@ -43,7 +44,7 @@ const userData = {
     return (
         <div className="create-user-container">
             <h2>Create User</h2>
-           <form className="form-box" onSubmit={handleSubmit}>
+            <form className="form-box" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Họ tên <span className="highlight">*</span></label>
                     <input type="text" className="form-control" id="name" required />
@@ -59,6 +60,10 @@ const userData = {
                 <div className="mb-3">
                     <label htmlFor="confirmPassword" className="form-label">Nhập Lại Mật Khẩu<span className="highlight">*</span></label>
                     <input type="password" className="form-control" id="confirmPassword" required />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="phonenumber" className="form-label">Số điện thoại<span className="highlight">*</span></label>
+                    <input type="text" className="form-control" id="phonenumber" required />
                 </div>
 
                 {/* <div className="mb-3">

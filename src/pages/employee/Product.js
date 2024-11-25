@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from "react";
 import "../../style/pages/admin/product.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 
 function ProductEmployee() {
@@ -13,6 +13,7 @@ function ProductEmployee() {
     const itemsPerPage = 10; // Số sản phẩm mỗi trang
     const location = useLocation();
     const searchQuery = location.state?.searchQuery || ''; // Lấy searchQuery từ state
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,18 +46,8 @@ function ProductEmployee() {
         setCurrentPage(selectedPage);
     };
 
-    const handleDeleteProduct = async (productId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-        if (confirmDelete) {
-            try {
-                await axios.delete(`http://localhost:3001/api/v1/product/${productId}`);
-                setData(data.filter(product => product.id !== productId));
-                alert('Product deleted successfully!');
-            } catch (error) {
-                console.error('Error deleting product:', error);
-                alert('Failed to delete product. Please try again.');
-            }
-        }
+    const handleUpdate = (product) => {
+        navigate(`/employee/update-product/${product.id}`);
     };
 
     return (
@@ -106,7 +97,7 @@ function ProductEmployee() {
                                     </Link>
                                 </td>
                                 <td>
-                                    <button className="btn btn-danger" onClick={() => handleDeleteProduct(product.id)}>Xóa</button>
+                                    <button className="btn btn-primary" style={{ margin: '0 5px', backgroundColor: '#007bff', color: 'white' }} onClick={() => handleUpdate(product.id)}>Update</button>
                                 </td>
                             </tr>
                         ))

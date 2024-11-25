@@ -123,9 +123,11 @@ const EmployeeList = () => {
     };
 
     // Hàm xử lý click vào hàng
-    const handleRowClick = (employeeId) => {
+    const handleUpdate = (employeeId) => {
         navigate(`/admin/employees/employee-permissions/${employeeId}`);
     };
+
+
 
     return (
         <div className="employee-list-container">
@@ -172,7 +174,7 @@ const EmployeeList = () => {
                         </tr>
                     ) : (
                         currentEmployees.map((employee) => (
-                            <tr key={employee.id} onClick={() => handleRowClick(employee.id)}>
+                            <tr key={employee.id} >
                                 <td>{employee.name}</td>
                                 <td>{employee.email}</td>
                                 <td>{employee.position}</td>
@@ -189,6 +191,9 @@ const EmployeeList = () => {
                                         e.stopPropagation(); // Ngăn chặn sự kiện click trên hàng
                                         handleDeleteEmployee(employee.id);
                                     }}>Xóa</button>
+                                    <button className="btn btn-primary" onClick={() => handleUpdate(employee.id)} style={{ margin: '0 5px', backgroundColor: '#007bff', color: 'white' }}>
+                                        Update
+                                    </button>
                                 </td>
                             </tr>
                         ))

@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../style/pages/admin/Order.scss";
 import moment from 'moment';
 import ReactPaginate from 'react-paginate';
@@ -15,6 +15,7 @@ export default function OrdersEmployee() {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,29 +32,11 @@ export default function OrdersEmployee() {
         fetchData();
     }, [currentPage]);
 
+
     const handleUpdate = (order) => {
-        window.location.href = `orders/update/${order.id}`;
+        navigate(`/admin/orders/update/${order.id}`);
     };
 
-    const handleDelete = async (order) => {
-        try {
-            const response = await axios.get(`http://localhost:3001/api/v1/orderItem/order/${order.id}`);
-            const orderItems = response.data;
-
-            await Promise.all(orderItems.map(item =>
-                axios.delete(`http://localhost:3001/api/v1/orderItem/${item.id}`)
-            ));
-
-            await axios.delete(`http://localhost:3001/api/v1/order/${order.id}`);
-            alert("Xóa Order thành công");
-            const updatedData = data.filter((item) => item.id !== order.id);
-            setData(updatedData);
-            setFilteredData(updatedData);
-            console.log('Order and its items deleted successfully');
-        } catch (error) {
-            console.error('Failed to delete order and its items:', error);
-        }
-    };
 
     const handlePageClick = (event) => {
         const selectedPage = event.selected + 1;
@@ -145,9 +128,6 @@ export default function OrdersEmployee() {
                                 </div>
                             </td>
                             <td>
-                                <button className="delete" onClick={() => handleDelete(order)}>
-                                    Delete
-                                </button>
                                 <button className="update" onClick={() => handleUpdate(order)}>
                                     Update
                                 </button>

@@ -8,21 +8,31 @@ const NewProduct = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortOption, setSortOption] = useState('manual');
     const { category } = useParams();
-const capitalizedCategory = category
-    .replace(/-/g, ' ') // Thay thế dấu gạch ngang bằng khoảng trắng
-    .toLowerCase() // Chuyển toàn bộ chuỗi về chữ thường
-    .split(' ') // Tách chuỗi thành mảng từ
-    .map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word) // Chỉ viết hoa chữ cái đầu tiên của từ đầu tiên
-    .join(' '); // Kết hợp lại thành chuỗi
+    const capitalizedCategory = category
+        .replace(/-/g, ' ') // Thay thế dấu gạch ngang bằng khoảng trắng
+        .toLowerCase() // Chuyển toàn bộ chuỗi về chữ thường
+        .split(' ') // Tách chuỗi thành mảng từ
+        .map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word) // Chỉ viết hoa chữ cái đầu tiên của từ đầu tiên
+        .join(' '); // Kết hợp lại thành chuỗi
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/api/v1/product/products');
                 if (Array.isArray(response.data.products)) {
+                    console.log("check capitalizedCategory >>>", capitalizedCategory);
+
                     const newProducts = response.data.products
                         .filter(product => {
-                            return product.category === capitalizedCategory; // Điều kiện lọc
+                            // Chuyển đổi category từ "Ví - Clutch" sang "Ví Clutch" và loại bỏ khoảng trắng thừa
+                            const normalizedCategory = product.category
+                                .replace(/-/g, ' ') // Thay thế dấu gạch ngang bằng khoảng trắng
+                                .toLowerCase() // Chuyển toàn bộ chuỗi về chữ thường
+                                .split(' ') // Tách chuỗi thành mảng từ
+                                .map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word) // Chỉ viết hoa chữ cái đầu tiên của từ đầu tiên
+                                .join(' '); // Kết hợp lại thành chuỗi
+                            console.log("check normalizedCategory >>>", normalizedCategory);
+                            return normalizedCategory === capitalizedCategory; // Điều kiện lọc
                         })
                         .map(product => ({
                             ...product,
@@ -40,7 +50,7 @@ const capitalizedCategory = category
         };
 
         fetchData();
-    }, [capitalizedCategory]); // Thêm formattedCategory vào dependency array
+    }, [capitalizedCategory]); // Thêm capitalizedCategory vào dependency array // Thêm capitalizedCategory vào dependency array// Thêm formattedCategory vào dependency array
 
     // Hàm xử lý thay đổi lựa chọn sắp xếp
     const handleSortChange = (e) => {

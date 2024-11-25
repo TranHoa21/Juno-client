@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from "react";
 import "../../style/pages/admin/product.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 
 function Product() {
@@ -13,7 +13,7 @@ function Product() {
     const itemsPerPage = 10; // Số sản phẩm mỗi trang
     const location = useLocation();
     const searchQuery = location.state?.searchQuery || ''; // Lấy searchQuery từ state
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -58,7 +58,9 @@ function Product() {
             }
         }
     };
-
+    const handleUpdate = (product) => {
+        navigate(`/admin/update-product/${product.id}`);
+    };
     return (
         <div className="product-container">
             <div className="title-box">
@@ -80,14 +82,10 @@ function Product() {
                         filteredData.map((product) => (
                             <tr className="product-item" key={product.id}>
                                 <td>
-                                    <Link to={`/admin/update-product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        <img className="product-item-image" src={product.image_url.replace(/"/g, '')} alt={product.name} />
-                                    </Link>
+                                    <img className="product-item-image" src={product.image_url.replace(/"/g, '')} alt={product.name} />
                                 </td>
                                 <td>
-                                    <Link to={`/admin/update-product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        {product.name}
-                                    </Link>
+                                    {product.name}
                                 </td>
                                 <td>
                                     <div className="product-color">
@@ -101,12 +99,13 @@ function Product() {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link to={`/admin/update-product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        {parseInt(product.price).toLocaleString()}₫
-                                    </Link>
+                                    {parseInt(product.price).toLocaleString()}₫
                                 </td>
                                 <td>
                                     <button className="btn btn-danger" onClick={() => handleDeleteProduct(product.id)}>Xóa</button>
+                                    <button className="btn btn-primary" style={{ margin: '0 5px', backgroundColor: '#007bff', color: 'white' }} onClick={() => handleUpdate(product)}>
+                                        Update
+                                    </button>
                                 </td>
                             </tr>
                         ))
